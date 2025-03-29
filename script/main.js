@@ -33,7 +33,7 @@ const fetchData = () => {
         }
 
         // Check if the iteration is over
-        // Run amimation if so
+        // Run amination if so
         if (dataArr.length === dataArr.indexOf(customData) + 1) {
           document.querySelector("#startButton").addEventListener("click", () => {
             document.querySelector(".startSign").style.display = "none"
@@ -51,6 +51,7 @@ const animationTimeline = () => {
   // Spit chars that needs to be animated individually
   const textBoxChars = document.getElementsByClassName("hbd-chatbox")[0]
   const hbd = document.getElementsByClassName("wish-hbd")[0]
+  const wishText = document.querySelector(".wish h5")
 
   textBoxChars.innerHTML = `<span>${textBoxChars.innerHTML
     .split("")
@@ -59,6 +60,11 @@ const animationTimeline = () => {
   hbd.innerHTML = `<span>${hbd.innerHTML
     .split("")
     .join("</span><span>")}</span`
+
+  // 将 wishText 的每个字符拆分为独立的 span 元素
+  wishText.innerHTML = `<span>${wishText.innerHTML
+    .split("")
+    .join("</span><span>")}</span>`;
 
   const ideaTextTrans = {
     opacity: 0,
@@ -84,6 +90,7 @@ const animationTimeline = () => {
       opacity: 0,
       y: 10
     })
+    .to(".container", 0.01, {}, "+=3")
     .from(".two", 0.4, {
       opacity: 0,
       y: 10
@@ -243,13 +250,13 @@ const animationTimeline = () => {
       "-=2"
     )
     .from(".hat", 0.5, {
-      x: -100,
+      x: -150,
       y: 350,
       rotation: -180,
       opacity: 0
     })
     .to(".hat", 0.3, {
-      x: -30,
+      x: -30
     })
     .staggerFrom(
       ".wish-hbd span",
@@ -290,6 +297,27 @@ const animationTimeline = () => {
       },
       "party"
     )
+    .to(".wish h5", 0.5, {
+      onStart: function() {
+        const wishText = document.querySelector(".wish h5");
+        wishText.style.background = "linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet)";
+        wishText.style.webkitBackgroundClip = "text";
+        wishText.style.backgroundClip = "text";
+        wishText.style.color = "transparent";
+        wishText.style.backgroundSize = "200% auto";
+        wishText.style.animation = "rainbow 2s linear infinite";
+        
+        // 添加彩虹动画到页面样式
+        const style = document.createElement('style');
+        style.textContent = `
+          @keyframes rainbow {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+          }
+        `;
+        document.head.appendChild(style);
+      }
+    }, "party+=0.1")
     .staggerTo(
       ".eight svg",
       1.5,
@@ -307,7 +335,21 @@ const animationTimeline = () => {
       y: 30,
       zIndex: "-1"
     })
-    .staggerFrom(".nine p", 1, ideaTextTrans, 1.2)
+    .from("[data-node-name='outroText']", 1, ideaTextTrans)
+    .to("[data-node-name='outroText']", 0.5, {
+      color: "#1A2C42",
+      fontWeight: "600",
+      textShadow: "0px 1px 2px rgba(0,0,0,0.2)"
+    })
+    .from("[data-node-name='outroText1']", 1, ideaTextTrans, "+=5")
+    .to("[data-node-name='outroText1']", 0.5, {
+      color: "#1A2C42",
+      fontWeight: "600",
+      textShadow: "0px 1px 2px rgba(0,0,0,0.2)"
+    })
+    .from("[data-node-name='replayText']", 1, ideaTextTrans, "+=0.7")
+    .from("[data-node-name='replayText1']", 1, ideaTextTrans, "+=0.7")
+    .from("[data-node-name='outroSmiley']", 1, ideaTextTrans, "+=0.7")
     .to(
       ".last-smile",
       0.5,
