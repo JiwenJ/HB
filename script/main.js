@@ -315,7 +315,7 @@ const animationTimeline = () => {
         wishText.style.backgroundClip = "text";
         wishText.style.color = "transparent";
         wishText.style.backgroundSize = "200% auto";
-        wishText.style.animation = "rainbow 2s linear infinite";
+        wishText.style.animation = "rainbow 4s linear infinite";
         
         // 添加彩虹动画到页面样式
         const style = document.createElement('style');
