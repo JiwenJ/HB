@@ -90,12 +90,19 @@
             requestAnimationFrame(animate);
         }
 
+        let lastFireworkTime = 0;
+        const minInterval = 500; // 两次烟花之间的最小时间间隔（毫秒）
+
         // 监听点击事件
         document.addEventListener('click', (e) => {
-            const rect = canvas.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            fireworks.push(new Firework(x, y, 30)); // 30 表示粒子数量，可调整烟花大小
+            const currentTime = Date.now();
+            if (currentTime - lastFireworkTime >= minInterval) {
+                const rect = canvas.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                fireworks.push(new Firework(x, y, 30)); // 30 表示粒子数量，可调整烟花大小
+                lastFireworkTime = currentTime;
+            }
         });
 
         animate();

@@ -48,6 +48,10 @@ const fetchData = () => {
 
 // Animation Timeline
 const animationTimeline = () => {
+  // 在animationTimeline函数开头添加字符拆分（与其他文本处理保持一致）
+  const outroText = document.querySelector("[data-node-name='outroText']");
+  outroText.innerHTML = `<span>${outroText.innerHTML.split('').join('</span><span>')}</span>`;
+
   // Spit chars that needs to be animated individually
   const textBoxChars = document.getElementsByClassName("hbd-chatbox")[0]
   const hbd = document.getElementsByClassName("wish-hbd")[0]
@@ -102,7 +106,7 @@ const animationTimeline = () => {
         opacity: 0,
         y: 10
       },
-      "+=2.5"
+      "+=4"
     )
     .to(
       ".two",
@@ -154,7 +158,7 @@ const animationTimeline = () => {
         opacity: 0,
         y: -150
       },
-      "+=0.7"
+      "+=1.2"
     )
     .from(".idea-1", 0.7, ideaTextTrans)
     .to(".idea-1", 0.7, ideaTextTransLeave, "+=1.5")
@@ -287,15 +291,21 @@ const animationTimeline = () => {
       0.1,
       "party"
     )
-    .from(
-      ".wish h5",
-      0.5,
+    .staggerFromTo(
+      ".wish h5 span",
+      0.7,
       {
         opacity: 0,
-        y: 10,
-        skewX: "-15deg"
+        y: 50,
+        scale: 0.5
       },
-      "party"
+      {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        ease: Elastic.easeOut.config(1, 0.5)
+      },
+      0.05
     )
     .to(".wish h5", 0.5, {
       onStart: function() {
@@ -335,7 +345,15 @@ const animationTimeline = () => {
       y: 30,
       zIndex: "-1"
     })
-    .from("[data-node-name='outroText']", 1, ideaTextTrans)
+    .staggerFrom(
+      "[data-node-name='outroText'] span",
+      0.5,
+      {
+        opacity: 0,
+        y: 20
+      },
+      0.09
+    )
     .to("[data-node-name='outroText']", 0.5, {
       color: "#1A2C42",
       fontWeight: "600",
